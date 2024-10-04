@@ -220,3 +220,24 @@ Address:  ⭐ 195.7.117.146 ⭐
 ### ☀️ Capture ARP
 
 [Lien vers capture ARP](./captures/arp.pcapng)
+
+### ☀️ Capture DNS
+
+``` bash
+PS C:\Windows\system32> nslookup youtube.com
+Serveur :   dns.google
+Address:  8.8.8.8
+
+Réponse ne faisant pas autorité :
+Nom :    youtube.com
+Addresses:  2a00:1450:4007:818::200e
+          142.250.179.110
+
+```
+
+[Lien vers capture DNS](./captures/dns.pcapng)
+
+### ☀️ Capture TCP
+
+[Lien vers capture TCP](./captures/tcp.pcapng)
+
