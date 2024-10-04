@@ -144,7 +144,7 @@ drwxr-xr-x. 2 root root 24 Oct  4 11:19 site_nul
 - configuration NGINX
 
 ```bash
-[tristan@node2 nginx]$ cat /etc/nginx/nginx.conf
+[tristan@web nginx]$ cat /etc/nginx/nginx.conf
 # For more information on configuration, see:
 #   * Official English Documentation: http://nginx.org/en/docs/
 #   * Official Russian Documentation: http://nginx.org/ru/docs/
@@ -248,7 +248,10 @@ public (active)
   rich rules:
 ```
 
+- prouvez qu'il y a un programme NGINX qui tourne derrière le port 80 de la machine (commande ss)
+
 ``` bash
+[tristan@web nginx]$ ss -alntp
 State     Recv-Q    Send-Q       Local Address:Port       Peer Address:Port   Process
 LISTEN    0         511                0.0.0.0:80              0.0.0.0:*
 LISTEN    0         128                0.0.0.0:22              0.0.0.0:*
