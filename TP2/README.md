@@ -141,95 +141,17 @@ drwxr-xr-x. 2 root root 24 Oct  4 11:19 site_nul
 ```
 - prouvez que le firewall est bien configuré
 
-- configuration NGINX
+- configuration NGINX (jl'avais fait sur la conf de base mais merci Léo pour la modif du conf.d)
 
 ```bash
-[tristan@web nginx]$ cat /etc/nginx/nginx.conf
-# For more information on configuration, see:
-#   * Official English Documentation: http://nginx.org/en/docs/
-#   * Official Russian Documentation: http://nginx.org/ru/docs/
-
-user nginx;
-worker_processes auto;
-error_log /var/log/nginx/error.log;
-pid /run/nginx.pid;
-
-# Load dynamic modules. See /usr/share/doc/nginx/README.dynamic.
-include /usr/share/nginx/modules/*.conf;
-
-events {
-    worker_connections 1024;
-}
-
-http {
-    log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '
-                      '$status $body_bytes_sent "$http_referer" '
-                      '"$http_user_agent" "$http_x_forwarded_for"';
-
-    access_log  /var/log/nginx/access.log  main;
-
-    sendfile            on;
-    tcp_nopush          on;
-    tcp_nodelay         on;
-    keepalive_timeout   65;
-    types_hash_max_size 4096;
-
-    include             /etc/nginx/mime.types;
-    default_type        application/octet-stream;
-
-    # Load modular configuration files from the /etc/nginx/conf.d directory.
-    # See http://nginx.org/en/docs/ngx_core_module.html#include
-    # for more information.
-    include /etc/nginx/conf.d/*.conf;
-
-    server {
-        listen       80;
-        listen       [::]:80;
-        server_name  site_nul.tp2;
-        root         /var/www/site_nul/;
-
-        # Load configuration files for the default server block.
-        include /etc/nginx/default.d/*.conf;
-
-        error_page 404 /404.html;
-        location = /404.html {
-        }
-
-        error_page 500 502 503 504 /50x.html;
-        location = /50x.html {
-        }
-    }
-
-# Settings for a TLS enabled server.
-#
-#    server {
-#        listen       443 ssl http2;
-#        listen       [::]:443 ssl http2;
-#        server_name  _;
-#        root         /usr/share/nginx/html;
-#
-#        ssl_certificate "/etc/pki/nginx/server.crt";
-#        ssl_certificate_key "/etc/pki/nginx/private/server.key";
-#        ssl_session_cache shared:SSL:1m;
-#        ssl_session_timeout  10m;
-#        ssl_ciphers PROFILE=SYSTEM;
-#        ssl_prefer_server_ciphers on;
-#
-#        # Load configuration files for the default server block.
-#        include /etc/nginx/default.d/*.conf;
-#
-#        error_page 404 /404.html;
-#            location = /40x.html {
-#        }
-#
-#        error_page 500 502 503 504 /50x.html;
-#            location = /50x.html {
-#        }
-#    }
-
+[tristan@web nginx]$ cat /etc/nginx/conf.d/meow.conf
+server {
+  listen 80;
+  server_name  site_nul.tp2;
+  root /var/www/site_nul;
 }
 ```
-
+    
 ```bash
 [tristan@web nginx]$ sudo firewall-cmd --list-all
 public (active)
@@ -251,12 +173,11 @@ public (active)
 - prouvez qu'il y a un programme NGINX qui tourne derrière le port 80 de la machine (commande ss)
 
 ``` bash
-[tristan@web nginx]$ ss -alntp
-State     Recv-Q    Send-Q       Local Address:Port       Peer Address:Port   Process
-LISTEN    0         511                0.0.0.0:80              0.0.0.0:*
-LISTEN    0         128                0.0.0.0:22              0.0.0.0:*
-LISTEN    0         511                   [::]:80                 [::]:*
-LISTEN    0         128                   [::]:22                 [::]:*
+[tristan@web nginx]$ sudo ss -lntp
+State      Recv-Q     Send-Q         Local Address:Port           Peer Address:Port     Process
+LISTEN     0          511                  0.0.0.0:80                  0.0.0.0:*         users:(("nginx",pid=2197,fd=6),("nginx",pid=2196,fd=6))
+LISTEN     0          128                  0.0.0.0:22                  0.0.0.0:*         users:(("sshd",pid=685,fd=3))
+LISTEN     0          128                     [::]:22                     [::]:*         users:(("sshd",pid=685,fd=4))
 ```
 
 ### ☀️ Sur node1.lan1.tp2
