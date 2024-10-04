@@ -248,6 +248,14 @@ public (active)
   rich rules:
 ```
 
+``` bash
+State     Recv-Q    Send-Q       Local Address:Port       Peer Address:Port   Process
+LISTEN    0         511                0.0.0.0:80              0.0.0.0:*
+LISTEN    0         128                0.0.0.0:22              0.0.0.0:*
+LISTEN    0         511                   [::]:80                 [::]:*
+LISTEN    0         128                   [::]:22                 [::]:*
+```
+
 ### ☀️ Sur node1.lan1.tp2
 
 - éditez le fichier hosts pour que site_nul.tp2 pointe vers l'IP de web.lan2.tp2
